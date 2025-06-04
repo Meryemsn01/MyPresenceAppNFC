@@ -2,7 +2,7 @@ import React, { useState } from 'react'; // Importer useState
 import { View, Text, TextInput, Button, SafeAreaView, Alert, ActivityIndicator, TouchableOpacity, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient'; // Importer LinearGradient
 import styles from './styles/LoginScreenStyles'; // Importer les styles
-// Importez les icônes de la bibliothèque @expo/vector-icons
+import Toast from 'react-native-toast-message'; // <-- Importez Toast ici
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 
 const LoginScreen = ({ navigation }) => {
@@ -59,7 +59,15 @@ const LoginScreen = ({ navigation }) => {
         console.log('Simulating JWT storage with token:', responseData.token);
         console.log('Simulating user data storage:', responseData.user);
 
-        Alert.alert('Connexion réussie (simulée)', `Bienvenue, ${responseData.user.name}!`);
+        Toast.show({
+        type: 'success', // Type de message (peut être 'success', 'error', 'info', 'any')
+        text1: 'Connexion Réussie',
+        text2: `Bienvenue, ${responseData.user.name} !`, // Message détaillé
+        visibilityTime: 3000, // Temps d'affichage en ms (3 secondes)
+        topOffset: 60, // Décalage depuis le haut de l'écran
+        // On peut personnaliser le style ici si on le souhaite, ou le faire globalement
+        // backgroundColors: { success: '#00C851' } par exemple
+        });
         navigation.navigate('Home');
       } else {
         Alert.alert('Échec de connexion (simulé)', responseData.message || 'Identifiants incorrects ou erreur inconnue.');
@@ -81,17 +89,27 @@ return (
     >
       <SafeAreaView style={styles.container}>
         <Image
-          source={require('../assets/supmti-logo-transparent.png')} // <-- Adaptez ce chemin vers votre logo
+          source={require('../assets/supmti-logo-transparent.png')}
           style={styles.logo}
         />
-        <Text style={styles.subtitle}>Système de Présence NFC</Text> {/* Nouveau sous-titre clair */}
+
+        {/* NOUVEL ÉLÉMENT INNOVANT : Indicateur Géométrique d'Impulsion NFC */}
+        <View style={styles.nfcPulseIndicator}>
+          {/* Cercles/Carrés concentriques pour l'effet de signal */}
+          <View style={[styles.pulseRing, styles.pulseRingSmall]} />
+          <View style={[styles.pulseRing, styles.pulseRingMedium]} />
+          <View style={[styles.pulseRing, styles.pulseRingLarge]} />
+          {/* On peut ajouter une petite icône NFC ou un point central ici si désiré */}
+          <MaterialCommunityIcons name="nfc" size={24} color="#FFFFFF" style={styles.nfcCenterIcon} />
+        </View>
+        {/* FIN NOUVEL ÉLÉMENT INNOVANT */}
 
         <View style={[styles.inputContainer, isEmailFocused && styles.inputFocused]}>
           <Feather name="mail" size={20} color={styles.icon.color} />
           <TextInput
             style={styles.input}
-            placeholder="Email du professeur"
-            placeholderTextColor="rgba(255, 255, 255, 0.7)" // Adaptez la couleur du placeholder pour un meilleur contraste
+            placeholder="Email "
+            placeholderTextColor="rgba(255, 255, 255, 0.7)"
             keyboardType="email-address"
             autoCapitalize="none"
             value={email}
@@ -107,7 +125,7 @@ return (
           <TextInput
             style={styles.input}
             placeholder="Mot de passe"
-            placeholderTextColor="rgba(255, 255, 255, 0.7)" // Adaptez la couleur du placeholder
+            placeholderTextColor="rgba(255, 255, 255, 0.7)"
             secureTextEntry
             value={password}
             onChangeText={setPassword}
@@ -139,5 +157,6 @@ return (
     </LinearGradient>
   );
 };
+
 
 export default LoginScreen;
