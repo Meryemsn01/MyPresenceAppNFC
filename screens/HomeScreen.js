@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, FlatList, ActivityIndicator, Alert } from 'react-native';
 import { mockFiliereStats, mockSessions } from '../data/mockData';
 import { MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 import styles from './styles/HomeScreenStyles';
 import { LinearGradient } from 'expo-linear-gradient';
+import Toast from 'react-native-toast-message'; // <-- Importez Toast ici
 
 const HomeScreen = ({ navigation }) => {
   const [filiereStats, setFiliereStats] = useState([]);
@@ -29,15 +30,26 @@ const HomeScreen = ({ navigation }) => {
     loadData();
   }, []);
 
-  const handleSelectSession = (session) => {
-    Alert.alert(
-      'Session Sélectionnée',
-      `Vous avez sélectionné la session pour le module : ${session.moduleName}.\nPrêt pour le scan NFC.`,
-      [
-        { text: 'OK', onPress: () => navigation.navigate('NFCScanningPage', { selectedSession: session }) }
-      ]
-    );
-  };
+    // Fonction pour simuler la sélection d'une session
+    const handleSelectSession = (session) => {
+    // Définit le contexte de la session active pour le scan NFC
+    console.log('Session sélectionnée pour le scan NFC:', session.moduleName);
+
+    // Remplacer l'Alert.alert par un Toast.show
+    Toast.show({
+        type: 'info', // Ou 'success', 'info' peut être plus approprié ici
+        text1: 'Session Sélectionnée',
+        text2: `Module: ${session.moduleName}. Prêt pour le scan NFC.`,
+        visibilityTime: 3000,
+        topOffset: 60,
+    });
+
+    // Navigue vers la page de scan NFC après un court délai pour que le toast soit visible
+    // Ou vous pouvez naviguer immédiatement si vous préférez
+    setTimeout(() => {
+        navigation.navigate('NFCScanningPage', { selectedSession: session });
+    }, 500); // Navigation après 0.5 seconde pour voir le toast
+    };
 
   // NOUVEAU Composant pour afficher une "Capsule de Statistiques"
   const FiliereStatCapsule = ({ filiere }) => {
