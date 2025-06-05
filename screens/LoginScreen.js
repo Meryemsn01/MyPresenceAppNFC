@@ -32,7 +32,7 @@ const LoginScreen = ({ navigation }) => {
       let loginSuccess = false;
       let responseData = {};
 
-      if (email === 'prof@supmti.ma' && password === 'password123') {
+      if (email === 's' && password === 's') {
         loginSuccess = true;
         responseData = {
           token: 'mock-jwt-token-abcdef12345',
@@ -68,7 +68,7 @@ const LoginScreen = ({ navigation }) => {
         // On peut personnaliser le style ici si on le souhaite, ou le faire globalement
         // backgroundColors: { success: '#00C851' } par exemple
         });
-        navigation.navigate('Home');
+        navigation.navigate('AppMain');
       } else {
         Alert.alert('Échec de connexion (simulé)', responseData.message || 'Identifiants incorrects ou erreur inconnue.');
         setPassword('');

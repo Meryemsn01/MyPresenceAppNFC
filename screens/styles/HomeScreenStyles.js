@@ -1,3 +1,5 @@
+// screens/styles/HomeScreenStyles.js
+
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -35,13 +37,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
   },
+  menuButton: { // Style pour le bouton du menu
+    paddingRight: 15,
+    paddingVertical: 5,
+  },
   headerGreeting: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#FFFFFF',
+    flex: 1,
+    textAlign: 'center',
   },
   headerSettingsIcon: {
-    // Style si besoin
+    marginLeft: 15,
   },
   headerSubtitle: {
     fontSize: 16,
@@ -52,7 +60,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingVertical: 10,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)', // Fond semi-transparent
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     borderRadius: 15,
   },
   statBox: {
@@ -84,13 +92,12 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     marginBottom: 30,
   },
-  // Styles pour les "Capsules de Statistiques" (Anciennement filiereCard)
   filiereCapsule: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 20, // Très arrondi
+    borderRadius: 20,
     padding: 15,
     marginRight: 15,
-    width: 200, // Largeur légèrement augmentée
+    width: 200,
     height: 140,
     shadowColor: 'rgba(0,0,0,0.1)',
     shadowOffset: { width: 0, height: 5 },
@@ -115,7 +122,7 @@ const styles = StyleSheet.create({
   capsuleRate: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: '#FF5722', // Orange pour le taux d'absence
+    color: '#FF5722',
   },
   capsuleModule: {
     fontSize: 13,
@@ -126,7 +133,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#E0E0E0',
     borderRadius: 3,
     marginTop: 10,
-    overflow: 'hidden', // Pour que la barre de progression soit coupée
+    overflow: 'hidden',
   },
   progressBarFill: {
     height: '100%',
@@ -138,8 +145,6 @@ const styles = StyleSheet.create({
     marginTop: 5,
     textAlign: 'right',
   },
-
-  // Styles pour les "Fiches de Mission" (Anciennement sessionItem)
   missionCard: {
     backgroundColor: '#FFFFFF',
     borderRadius: 15,
@@ -150,11 +155,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 10,
     elevation: 8,
-    overflow: 'hidden', // Pour l'indicateur latéral
+    overflow: 'hidden',
   },
   missionStatusIndicator: {
-    width: 8, // Largeur de l'indicateur latéral
-    // La couleur est définie dynamiquement
+    width: 8,
   },
   missionContent: {
     flex: 1,
@@ -170,7 +174,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#212121',
-    flex: 1, // Pour que le texte ne déborde pas
+    flex: 1,
     marginRight: 10,
   },
   missionStatus: {
@@ -219,6 +223,156 @@ const styles = StyleSheet.create({
   selectMissionButtonText: {
     color: '#FFFFFF',
     fontSize: 14,
+    fontWeight: 'bold',
+    marginRight: 5,
+  },
+
+  // Styles pour le menu latéral simulé (Modal)
+  menuOverlay: {
+    flex: 1, // On garde flex:1 pour qu'il remplisse le parent de la Modal
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    // Positionnement absolu pour s'assurer qu'il couvre tout l'écran
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    // Pour que le menu soit à gauche et le reste de l'overlay transparent
+    flexDirection: 'row',
+    justifyContent: 'flex-start', // Pousse le menu à gauche
+    alignItems: 'flex-start',
+  },
+  menuContainer: {
+    width: '75%', // Ou 300, si vous voulez une largeur fixe
+    maxWidth: 300,
+    backgroundColor: '#FFFFFF',
+    height: '100%',
+    paddingTop: 60,
+    paddingHorizontal: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 4, height: 0 },
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    elevation: 15,
+    borderRightWidth: 1,
+    borderRightColor: 'rgba(0, 188, 212, 0.2)',
+    borderBottomLeftRadius: 0,
+    borderTopRightRadius: 30,
+    borderBottomRightRadius: 30,
+    flexDirection: 'column', // Empile les éléments du menu
+    justifyContent: 'space-between', // Pousse l'en-tête et la déconnexion aux extrémités
+  },
+  menuHeader: { // Le LinearGradient qui sert d'en-tête de menu
+    paddingTop: 60, // Espace pour la barre de statut
+    paddingBottom: 25,
+    paddingHorizontal: 20,
+    marginBottom: 20, // Espace sous l'en-tête du menu
+    justifyContent: 'flex-end', // Aligne le contenu en bas du header
+    // Retirez les bordures/ombres que j'ai mis dans le précédent menuHeader ici
+    // borderBottomWidth: StyleSheet.hairlineWidth, // Pas de bordure par défaut
+    // borderBottomColor: '#EEE',
+  },
+  // Style optionnel pour une icône de profil dans le menuHeader
+  // profileIcon: {
+  //   marginBottom: 10,
+  // },
+  menuHeaderTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#FFFFFF', // Texte blanc sur dégradé
+    marginBottom: 5,
+  },
+  menuHeaderSubtitle: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.8)', // Texte blanc transparent
+  },
+  menuSection: {
+    paddingHorizontal: 20, // Padding sur les côtés des items de menu
+    marginBottom: 10,
+  },
+  menuItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 15, // Espace vertical
+    paddingHorizontal: 10,
+    borderRadius: 8, // Coins légèrement arrondis pour un look plus pro
+    marginBottom: 5, // Espacement entre les items
+    backgroundColor: 'transparent', // Assurez-vous que c'est transparent
+    // Pas d'ombres directes sur les items de menu pour un look plus simple
+  },
+  // Style pour le bouton "Déconnexion" au survol ou à l'appui
+  menuItemPressed: {
+    backgroundColor: 'rgba(13, 71, 161, 0.1)', // Légère teinte bleue au press (Bleu SUPMTI 10% opacité)
+  },
+  menuIcon: {
+    marginRight: 15,
+  },
+  menuItemText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#212121', // Texte sombre
+  },
+  menuSeparator: {
+    height: 1,
+    backgroundColor: '#EEE', // Séparateur gris clair
+    marginVertical: 15,
+    marginHorizontal: 20, // Alignement avec le padding des items
+  },
+  logoutItem: {
+    // Pas de background color par défaut, sera géré par menuItemPressed
+  },
+  logoutText: {
+    color: '#D32F2F', // Rouge SUPMTI
+    fontWeight: 'bold',
+  },
+menuContainer: {
+    width: '75%',
+    maxWidth: 300,
+    backgroundColor: '#FFFFFF',
+    height: '100%', // Assurez-vous que cette ligne est présente et correcte
+    // Pas de padding top ici car le menuHeader gère ça
+    shadowColor: '#000',
+    shadowOffset: { width: 4, height: 0 },
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    elevation: 15,
+    borderRightWidth: 1,
+    borderRightColor: 'rgba(0, 188, 212, 0.2)',
+    borderBottomLeftRadius: 0,
+    borderTopRightRadius: 30,
+    borderBottomRightRadius: 30,
+    // AJOUTEZ CES DEUX PROPRIÉTÉS POUR LA FLEXIBILITÉ
+    flexDirection: 'column', // Aligne les enfants verticalement
+    justifyContent: 'space-between', // Pousse le premier enfant en haut, le dernier en bas
+  },
+  menuHeader: {
+    paddingTop: 60,
+    paddingBottom: 25,
+    paddingHorizontal: 20,
+    marginBottom: 20,
+    justifyContent: 'flex-end',
+    // Retirez les bordures/ombres que j'ai mis dans le précédent menuHeader ici
+  },
+  menuItemsContainer: { // NOUVEAU STYLE
+    flex: 1, // Prend tout l'espace disponible pour pousser la déconnexion vers le bas
+    paddingHorizontal: 20, // Appliquez le padding ici pour les items
+  },
+  // ... (vos styles existants pour menuHeaderTitle, menuHeaderSubtitle, menuItem, menuIcon, menuItemText) ...
+
+  menuSeparator: {
+    height: 1,
+    backgroundColor: '#EEE',
+    marginVertical: 15,
+    marginHorizontal: 20, // Alignement avec le padding des items
+  },
+  logoutItem: {
+    // Style pour l'item de déconnexion, il aura son propre padding horizontal
+    paddingHorizontal: 20, // Pour aligner avec les autres items
+    marginBottom: 20, // Marge en bas pour le pied du menu
+    // Pas de background color par défaut, sera géré par menuItemPressed
+  },
+  logoutText: {
+    color: '#D32F2F',
     fontWeight: 'bold',
   },
 });

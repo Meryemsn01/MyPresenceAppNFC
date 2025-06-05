@@ -1,104 +1,103 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Switch, ActivityIndicator, Alert } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons'; // Pour les icônes
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import styles from './styles/NFCScanningPageStyles'; // Importer les styles
-import Toast from 'react-native-toast-message'; // Pour les messages de feedback
+import Toast from 'react-native-toast-message';
 
 const NFCScanningPage = ({ navigation, route }) => {
-  const { selectedSession } = route.params || {}; // Récupère la session sélectionnée depuis la navigation
+  const { selectedSession } = route.params || {};
 
-  const [isScanning, setIsScanning] = useState(false); // État pour l'activité du lecteur NFC
-  const [autoApprove, setAutoApprove] = useState(false); // État pour l'option d'approbation automatique
-  const [scanMessage, setScanMessage] = useState("Prêt à scanner la carte NFC"); // Message d'instruction
+  const [isScanning, setIsScanning] = useState(false);
+  const [autoApprove, setAutoApprove] = useState(false);
+  const [scanMessage, setScanMessage] = useState("Appuyez pour démarrer le scan NFC"); // Message initial
+  const [showInstruction, setShowInstruction] = useState(false); // Pour afficher les instructions après le clic
 
-  // Effet pour initialiser le scan (simulé) à l'entrée sur la page
   useEffect(() => {
-    // Dans une vraie application, ici on activerait le lecteur NFC de l'appareil
-    // Pour la simulation, on ne fait rien auto au début, le prof doit initier.
-    // Ou on pourrait auto-démarrer le scan après un petit délai.
-    setScanMessage("Approchez la carte étudiant ici");
-  }, []);
+    // Si aucune session n'est sélectionnée, rediriger ou afficher un message.
+    if (!selectedSession) {
+      Alert.alert("Erreur", "Aucune session sélectionnée. Veuillez choisir une session d'abord.");
+      navigation.goBack(); // Ou navigation.navigate('Home');
+    }
+  }, [selectedSession, navigation]);
 
-  // Fonction pour simuler l'activité de scan NFC
   const simulateNFCScan = async () => {
-    if (isScanning) return; // Empêche de scanner si déjà en cours
+    if (isScanning) return;
 
-    setIsScanning(true); // Active l'indicateur d'activité du lecteur NFC
-    setScanMessage("Scanning en cours...");
+    setIsScanning(true);
+    setShowInstruction(true); // Affiche les instructions de scan
+    setScanMessage("Approchez la carte étudiant ici...");
 
     try {
-      // Simuler la capture de l'UID de la carte NFC
-      const simulatedUID = `UID_${Math.random().toString(36).substring(2, 15)}`; // UID factice
-      await new Promise(resolve => setTimeout(resolve, 2500)); // Simuler le délai de scan
+      const simulatedUID = `UID_${Math.random().toString(36).substring(2, 15)}`;
+      await new Promise(resolve => setTimeout(resolve, 2500));
 
-      // Simuler l'envoi de l'UID et de l'ID de session au backend
-      // Dans la vraie API, ce serait un fetch POST vers /api/presences/scan
-      // qui renverrait les données de l'étudiant et/ou un statut de présence.
-
-      let scanResult = { success: true, studentData: {}, message: 'Étudiant scanné avec succès.' };
       let mockStudent = null;
+      let scanSuccess = true;
 
-      // Pour la démonstration, simuler des données étudiant différentes
+      // Simuler des scénarios pour le test
       if (simulatedUID.includes('UID_abc')) { // Simuler un UID connu
         mockStudent = {
           id: 'ETU001',
           name: 'Ahmed Benali',
           matricule: 'M12345',
           nfcId: simulatedUID,
-          filiere: 'Génie Informatique',
-          photoUrl: 'https://randomuser.me/api/portraits/men/1.jpg', // Photo factice
-          alreadyPresent: false, // Simuler s'il est déjà présent
-          sessionMismatch: false, // Simuler si la filière ne correspond pas
+          filiere: selectedSession.filiere, // Assurez-vous que la filière correspond pour auto-approve
+          photoUrl: 'https://randomuser.me/api/portraits/men/1.jpg',
+          alreadyPresent: false,
+          sessionMismatch: false,
         };
-      } else {
-        mockStudent = { // Un étudiant inconnu ou qui ne correspond pas
+      } else if (simulatedUID.includes('UID_xyz')) { // Simuler un étudiant déjà présent
+        mockStudent = {
+          id: 'ETU002',
+          name: 'Fatima Zahra',
+          matricule: 'M67890',
+          nfcId: simulatedUID,
+          filiere: selectedSession.filiere,
+          photoUrl: 'https://randomuser.me/api/portraits/women/1.jpg',
+          alreadyPresent: true,
+          sessionMismatch: false,
+        };
+      } else { // Étudiant inconnu ou filière non correspondante
+        mockStudent = {
           id: 'ETU_Unknown',
-          name: 'Étudiant Inconnu',
+          name: 'Inconnu / Non-Conforme',
           matricule: 'N/A',
           nfcId: simulatedUID,
-          filiere: 'Inconnue',
+          filiere: 'Non Correspondante',
           photoUrl: 'https://via.placeholder.com/150?text=Inconnu',
           alreadyPresent: false,
           sessionMismatch: true,
         };
       }
 
-      scanResult.studentData = mockStudent;
-
-      if (autoApprove && scanResult.success) { // Si l'approbation automatique est activée
-        // Ici, on simulerait la validation automatique de la présence
-        // avec des critères (ex: correspondance filière/session)
+      if (autoApprove) {
         if (mockStudent.sessionMismatch) {
           Toast.show({
             type: 'error',
-            text1: 'Scan Réussi, Approbation Manuelle Requise',
-            text2: 'Filière de l\'étudiant ne correspond pas à la session.',
+            text1: 'Attention',
+            text2: 'Filière ne correspond pas. Vérification manuelle requise.',
             visibilityTime: 4000,
           });
-          // Ne pas naviguer, ou naviguer vers la page de vérification pour intervention manuelle
           navigation.navigate('StudentVerificationPage', { scanResult: { success: true, studentData: mockStudent, status: 'manual_approve' }, selectedSession: selectedSession });
         } else if (mockStudent.alreadyPresent) {
           Toast.show({
             type: 'info',
-            text1: 'Étudiant Déjà Présent',
-            text2: `${mockStudent.name} est déjà enregistré.`,
+            text1: 'Déjà Présent',
+            text2: `${mockStudent.name} est déjà enregistré pour cette session.`,
             visibilityTime: 3000,
           });
-          // Rester sur cette page ou retourner au scan
-          // Ne pas naviguer vers la page de vérification
+          // Ne pas naviguer, rester sur la page de scan pour un nouveau scan
         } else {
-          // Approbation automatique réussie
           Toast.show({
             type: 'success',
-            text1: 'Approbation Automatique Réussie',
-            text2: `${mockStudent.name} a été marqué présent.`,
+            text1: 'Présence Automatique',
+            text2: `${mockStudent.name} marqué(e) présent(e).`,
             visibilityTime: 3000,
           });
-          // Retourner immédiatement au scan après l'approbation auto réussie
-          // Pas de navigation vers la page de vérification
+          // Ne pas naviguer, rester sur la page de scan pour un nouveau scan
         }
       } else {
-        // Navigue vers la "Page de Vérification et d'Approbation de l'Étudiant"
+        // Approbation manuelle: naviguer vers la page de vérification
         navigation.navigate('StudentVerificationPage', { scanResult: { success: true, studentData: mockStudent, status: 'awaiting_approval' }, selectedSession: selectedSession });
       }
 
@@ -106,77 +105,93 @@ const NFCScanningPage = ({ navigation, route }) => {
       console.error("Erreur lors de la simulation de scan NFC:", error);
       Toast.show({
         type: 'error',
-        text1: 'Erreur de Scan NFC',
+        text1: 'Erreur de Scan',
         text2: 'Veuillez réessayer ou vérifier la carte.',
         visibilityTime: 3000,
       });
     } finally {
-      setIsScanning(false); // Désactive l'indicateur
-      setScanMessage("Prêt à scanner la carte NFC");
+      setIsScanning(false);
+      setScanMessage("Scan Terminé. Appuyez pour un nouveau scan.");
+      setShowInstruction(false); // Masque les instructions après le scan
     }
   };
 
   const handleTerminateSession = () => {
-    // Logique pour terminer la session
-    // Peut-être afficher un résumé ou revenir à la page d'accueil
     Alert.alert(
       'Terminer la Session',
       'Voulez-vous vraiment terminer cette session de scan ?',
       [
         { text: 'Annuler', style: 'cancel' },
-        { text: 'Terminer', onPress: () => navigation.navigate('Home') } // Retourne à l'accueil
+        { text: 'Terminer', onPress: () => navigation.navigate('Home') }
       ]
     );
   };
 
   return (
     <SafeAreaView style={styles.container}>
+      {/* En-tête de la page */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Scan NFC</Text>
+        <Text style={styles.headerTitle}>Scan de Présence</Text>
         <TouchableOpacity onPress={handleTerminateSession} style={styles.terminateButton}>
-          <Text style={styles.terminateButtonText}>Terminer la Session</Text>
+          <MaterialCommunityIcons name="stop-circle-outline" size={24} color="#FFFFFF" style={{ marginRight: 5 }} />
+          <Text style={styles.terminateButtonText}>Terminer</Text>
         </TouchableOpacity>
       </View>
 
+      {/* Détails de la Session */}
       {selectedSession ? (
         <View style={styles.sessionDetailsCard}>
-          <Text style={styles.sessionDetailTextBold}>{selectedSession.moduleName}</Text>
-          <Text style={styles.sessionDetailText}>{selectedSession.date} | {selectedSession.time}</Text>
-          <Text style={styles.sessionDetailText}>{selectedSession.room} | {selectedSession.filiere}</Text>
+          <Text style={styles.sessionModuleText}>{selectedSession.moduleName}</Text>
+          <Text style={styles.sessionInfoText}>{selectedSession.filiere}</Text>
+          <View style={styles.sessionMeta}>
+            <MaterialCommunityIcons name="calendar-clock-outline" size={16} color="#555" />
+            <Text style={styles.sessionMetaText}>{selectedSession.date} à {selectedSession.time}</Text>
+          </View>
+          <View style={styles.sessionMeta}>
+            <MaterialCommunityIcons name="map-marker-outline" size={16} color="#555" />
+            <Text style={styles.sessionMetaText}>{selectedSession.room}</Text>
+          </View>
         </View>
       ) : (
         <View style={styles.noSessionCard}>
           <Text style={styles.noSessionText}>Aucune session sélectionnée.</Text>
-          <Button title="Retour à l'Accueil" onPress={() => navigation.navigate('Home')} color="#FF5722"/>
+          <TouchableOpacity style={styles.returnHomeButton} onPress={() => navigation.navigate('Home')}>
+            <Text style={styles.returnHomeButtonText}>Retour à l'Accueil</Text>
+          </TouchableOpacity>
         </View>
       )}
 
-      <View style={styles.scanArea}>
-        {/* Indicateur visuel de l'activité du lecteur NFC */}
-        <MaterialCommunityIcons
-          name={isScanning ? "nfc-search" : "nfc"} // Icône change si scanning
-          size={isScanning ? 120 : 100} // Taille change si scanning
-          color={isScanning ? "#00BCD4" : "#0D47A1"} // Couleur change si scanning
-          style={isScanning ? styles.scanningIcon : styles.nfcIcon} // Style d'animation pulsante
-        />
-        {/* Message visuel clair */}
-        <Text style={styles.scanMessageText}>{scanMessage}</Text>
+      {/* Zone de Scan NFC - La partie innovante */}
+      <View style={styles.scanAreaContainer}>
         <TouchableOpacity
-          style={styles.simulateScanButton}
+          style={styles.scanButton}
           onPress={simulateNFCScan}
           disabled={isScanning}
         >
-          <Text style={styles.simulateScanButtonText}>
-            {isScanning ? "Scan en cours..." : "Simuler Scan NFC"}
-          </Text>
+          {isScanning ? (
+            <ActivityIndicator size="large" color="#0D47A1" />
+          ) : (
+            <MaterialCommunityIcons name="nfc" size={100} color="#0D47A1" />
+          )}
+          <Text style={styles.scanInstructionText}>{scanMessage}</Text>
+          {showInstruction && !isScanning && (
+            <Text style={styles.scanSubInstruction}>Tenez la carte près de l'arrière de l'appareil.</Text>
+          )}
         </TouchableOpacity>
+        {isScanning && (
+          <View style={styles.pulseAnimationContainer}>
+            {/* Ces vues simulent l'animation de pulsation */}
+            <View style={styles.pulseCircleStatic1} />
+            <View style={styles.pulseCircleStatic2} />
+          </View>
+        )}
       </View>
 
       {/* Option d'Approbation Automatique */}
       <View style={styles.autoApproveContainer}>
         <Text style={styles.autoApproveLabel}>Approbation automatique</Text>
         <Switch
-          trackColor={{ false: "#767577", true: "#FF5722" }} // Couleurs de la bascule
+          trackColor={{ false: "#767577", true: "#00BCD4" }} // Changé en Cyan pour le ON
           thumbColor={autoApprove ? "#0D47A1" : "#f4f3f4"}
           ios_backgroundColor="#3e3e3e"
           onValueChange={setAutoApprove}
