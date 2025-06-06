@@ -1,38 +1,49 @@
-import React from 'react';
+// navigation/AppNavigator.js
+
+import React from 'react'; // Assurez-vous que React est importé
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { View } from 'react-native';
 
-// Importez vos écrans
 import LoginScreen from '../screens/LoginScreen';
 import HomeScreen from '../screens/HomeScreen';
 import NFCScanningPage from '../screens/NFCScanningPage';
-// Importez les nouveaux écrans du menu latéral ici
 import StudentsListScreen from '../screens/StudentsListScreen';
 import ScheduleScreen from '../screens/ScheduleScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 
+import CustomSideMenu from '../components/CustomSideMenu'; // Importez le composant du menu
+import { useMenu } from '../context/MenuContext'; // Importez useMenu
 
 const Stack = createNativeStackNavigator();
 
-const MainStackNavigator = () => {
+const MainAppNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="Home">
-      <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Mes Séances' }} />
-      <Stack.Screen name="NFCScanningPage" component={NFCScanningPage} options={{ title: 'Scan NFC' }} />
-      <Stack.Screen name="StudentsList" component={StudentsListScreen} options={{ title: 'Liste des Étudiants' }} />
-      <Stack.Screen name="Schedule" component={ScheduleScreen} options={{ title: 'Emploi du Temps' }} />
-      <Stack.Screen name="Settings" component={SettingsScreen} options={{ title: 'Paramètres' }} />
-    </Stack.Navigator>
+    <View style={{ flex: 1 }}> 
+      <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="NFCScanningPage" component={NFCScanningPage} />
+        <Stack.Screen name="StudentsList" component={StudentsListScreen} />
+        <Stack.Screen name="Schedule" component={ScheduleScreen} />
+        <Stack.Screen name="Settings" component={SettingsScreen} />
+      </Stack.Navigator>
+      <CustomSideMenu /> 
+    </View>
   );
 };
 
 const AppNavigator = () => {
+  // Nous n'avons pas besoin de navigationRef ici si CustomSideMenu utilise useNavigation()
+  // const navigationRef = React.useRef(); // Supprimez ou commentez cette ligne
+  // const { isMenuVisible } = useMenu(); // Cette ligne n'est pas nécessaire ici
+
   return (
-    <NavigationContainer>
+    <NavigationContainer /* retirez ref={navigationRef} ici */>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="AppMain" component={MainStackNavigator} />
+        <Stack.Screen name="AppContent" component={MainAppNavigator} />
       </Stack.Navigator>
+      
     </NavigationContainer>
   );
 };

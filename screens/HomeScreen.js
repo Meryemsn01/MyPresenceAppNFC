@@ -7,8 +7,8 @@ import { MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 import styles from './styles/HomeScreenStyles'; // Importe les styles de ce fichier
 import { LinearGradient } from 'expo-linear-gradient';
 import Toast from 'react-native-toast-message';
+import { useMenu } from '../context/MenuContext'; // <-- Importez useMenu
 
-// --- Composants internes définis en dehors du composant principal pour la propreté ---
 
 // Composant pour afficher une "Capsule de Statistiques"
 const FiliereStatCapsule = ({ filiere }) => {
@@ -81,7 +81,7 @@ const HomeScreen = ({ navigation }) => {
   const [filiereStats, setFiliereStats] = useState([]);
   const [sessions, setSessions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const { openMenu } = useMenu();
 
   const fetchFiliereData = async () => {
     await new Promise(resolve => setTimeout(resolve, 1500));
@@ -186,9 +186,9 @@ const HomeScreen = ({ navigation }) => {
       >
         <View style={styles.headerTopRow}>
             {/* Bouton de menu */}
-            <TouchableOpacity onPress={() => setIsMenuVisible(true)} style={styles.menuButton}>
-                <Feather name="menu" size={24} color="#FFFFFF" />
-            </TouchableOpacity>
+        <TouchableOpacity onPress={openMenu} style={styles.menuButton}> {/* <-- Appelle openMenu() */}
+            <Feather name="menu" size={24} color="#FFFFFF" />
+        </TouchableOpacity>
             <Text style={styles.headerGreeting}>Bonjour Professeur !</Text>
             <MaterialCommunityIcons name="cog-outline" size={24} color="#FFFFFF" style={styles.headerSettingsIcon} />
         </View>
@@ -227,58 +227,7 @@ const HomeScreen = ({ navigation }) => {
       </ScrollView>
 
       {/* MODAL POUR LE MENU LATÉRAL SIMULÉ */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={isMenuVisible}
-        onRequestClose={() => setIsMenuVisible(false)}
-      >
-        <Pressable style={styles.menuOverlay} onPress={() => setIsMenuVisible(false)}>
 
-<View style={styles.menuContainer}>
-  {/* En-tête du menu */}
-  <LinearGradient
-    colors={['#0D47A1', '#00BCD4']}
-    style={styles.menuHeader}
-    start={{ x: 0, y: 0 }}
-    end={{ x: 1, y: 0 }}
-  >
-    <Text style={styles.menuHeaderTitle}>Mr/Mme Professeur</Text>
-    <Text style={styles.menuHeaderSubtitle}>prof@supmti.ma</Text>
-    {/* Optionnel: Ajoutez une icône de profil ici */}
-    {/* <MaterialCommunityIcons name="account-circle-outline" size={50} color="#FFFFFF" style={styles.profileIcon} /> */}
-  </LinearGradient>
-
-
- 
-    <View style={styles.menuItemsContainer}>
-      <TouchableOpacity style={styles.menuItem} onPress={() => handleMenuItemPress('StudentsList')}>
-        <MaterialCommunityIcons name="account-group-outline" size={24} color="#0D47A1" style={styles.menuIcon} />
-        <Text style={styles.menuItemText}>Liste des Étudiants</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.menuItem} onPress={() => handleMenuItemPress('Schedule')}>
-        <MaterialCommunityIcons name="calendar-month-outline" size={24} color="#0D47A1" style={styles.menuIcon} />
-        <Text style={styles.menuItemText}>Emploi du Temps</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.menuItem} onPress={() => handleMenuItemPress('Settings')}>
-        <Feather name="settings" size={24} color="#0D47A1" style={styles.menuIcon} />
-        <Text style={styles.menuItemText}>Paramètres</Text>
-      </TouchableOpacity>
-    </View>
-    {/* FIN NOUVEAU CONTENEUR */}
-
-    <View style={styles.menuSeparator} /> {/* Séparateur avant la déconnexion */}
-
-    {/* Section de déconnexion (toujours en bas) */}
-    <TouchableOpacity style={[styles.menuItem, styles.logoutItem]} onPress={handleLogout}>
-      <MaterialCommunityIcons name="logout" size={24} color="#D32F2F" style={styles.menuIcon} />
-      <Text style={[styles.menuItemText, styles.logoutText]}>Déconnexion</Text>
-    </TouchableOpacity>
-  </View>
-        </Pressable>
-      </Modal>
     </SafeAreaView>
   );
 };

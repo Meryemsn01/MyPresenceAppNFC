@@ -68,7 +68,7 @@ const LoginScreen = ({ navigation }) => {
         // On peut personnaliser le style ici si on le souhaite, ou le faire globalement
         // backgroundColors: { success: '#00C851' } par exemple
         });
-        navigation.navigate('AppMain');
+        navigation.navigate('AppContent');
       } else {
         Alert.alert('Échec de connexion (simulé)', responseData.message || 'Identifiants incorrects ou erreur inconnue.');
         setPassword('');

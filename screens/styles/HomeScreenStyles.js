@@ -1,4 +1,4 @@
-// screens/styles/HomeScreenStyles.js
+// screens/styles/HomeScreenStyles.js - CODE CORRECT ET PROPRE
 
 import { StyleSheet } from 'react-native';
 
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
   },
-  menuButton: { // Style pour le bouton du menu
+  menuButton: { // Style pour le bouton du menu sur HOMESCREEN
     paddingRight: 15,
     paddingVertical: 5,
   },
@@ -227,149 +227,84 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
 
-  // Styles pour le menu latéral simulé (Modal)
+  // Styles pour le menu latéral simulé (Modal) - Ceux-ci sont CORRECTS ici
   menuOverlay: {
-    flex: 1, // On garde flex:1 pour qu'il remplisse le parent de la Modal
+    flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',
-    // Positionnement absolu pour s'assurer qu'il couvre tout l'écran
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    // Pour que le menu soit à gauche et le reste de l'overlay transparent
     flexDirection: 'row',
-    justifyContent: 'flex-start', // Pousse le menu à gauche
-    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    alignItems: 'stretch', // S'étend sur toute la hauteur
   },
   menuContainer: {
-    width: '75%', // Ou 300, si vous voulez une largeur fixe
-    maxWidth: 300,
-    backgroundColor: '#FFFFFF',
-    height: '100%',
-    paddingTop: 60,
-    paddingHorizontal: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 4, height: 0 },
-    shadowOpacity: 0.3,
-    shadowRadius: 10,
-    elevation: 15,
-    borderRightWidth: 1,
-    borderRightColor: 'rgba(0, 188, 212, 0.2)',
-    borderBottomLeftRadius: 0,
-    borderTopRightRadius: 30,
-    borderBottomRightRadius: 30,
-    flexDirection: 'column', // Empile les éléments du menu
-    justifyContent: 'space-between', // Pousse l'en-tête et la déconnexion aux extrémités
-  },
-  menuHeader: { // Le LinearGradient qui sert d'en-tête de menu
-    paddingTop: 60, // Espace pour la barre de statut
-    paddingBottom: 25,
-    paddingHorizontal: 20,
-    marginBottom: 20, // Espace sous l'en-tête du menu
-    justifyContent: 'flex-end', // Aligne le contenu en bas du header
-    // Retirez les bordures/ombres que j'ai mis dans le précédent menuHeader ici
-    // borderBottomWidth: StyleSheet.hairlineWidth, // Pas de bordure par défaut
-    // borderBottomColor: '#EEE',
-  },
-  // Style optionnel pour une icône de profil dans le menuHeader
-  // profileIcon: {
-  //   marginBottom: 10,
-  // },
-  menuHeaderTitle: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: '#FFFFFF', // Texte blanc sur dégradé
-    marginBottom: 5,
-  },
-  menuHeaderSubtitle: {
-    fontSize: 14,
-    color: 'rgba(255, 255, 255, 0.8)', // Texte blanc transparent
-  },
-  menuSection: {
-    paddingHorizontal: 20, // Padding sur les côtés des items de menu
-    marginBottom: 10,
-  },
-  menuItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 15, // Espace vertical
-    paddingHorizontal: 10,
-    borderRadius: 8, // Coins légèrement arrondis pour un look plus pro
-    marginBottom: 5, // Espacement entre les items
-    backgroundColor: 'transparent', // Assurez-vous que c'est transparent
-    // Pas d'ombres directes sur les items de menu pour un look plus simple
-  },
-  // Style pour le bouton "Déconnexion" au survol ou à l'appui
-  menuItemPressed: {
-    backgroundColor: 'rgba(13, 71, 161, 0.1)', // Légère teinte bleue au press (Bleu SUPMTI 10% opacité)
-  },
-  menuIcon: {
-    marginRight: 15,
-  },
-  menuItemText: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#212121', // Texte sombre
-  },
-  menuSeparator: {
-    height: 1,
-    backgroundColor: '#EEE', // Séparateur gris clair
-    marginVertical: 15,
-    marginHorizontal: 20, // Alignement avec le padding des items
-  },
-  logoutItem: {
-    // Pas de background color par défaut, sera géré par menuItemPressed
-  },
-  logoutText: {
-    color: '#D32F2F', // Rouge SUPMTI
-    fontWeight: 'bold',
-  },
-menuContainer: {
     width: '75%',
     maxWidth: 300,
     backgroundColor: '#FFFFFF',
-    height: '100%', // Assurez-vous que cette ligne est présente et correcte
-    // Pas de padding top ici car le menuHeader gère ça
+    height: '100%',
     shadowColor: '#000',
     shadowOffset: { width: 4, height: 0 },
     shadowOpacity: 0.3,
     shadowRadius: 10,
     elevation: 15,
     borderRightWidth: 1,
-    borderRightColor: 'rgba(0, 188, 212, 0.2)',
-    borderBottomLeftRadius: 0,
+    borderRightColor: 'rgba(0, 188, 212, 0.3)',
     borderTopRightRadius: 30,
     borderBottomRightRadius: 30,
-    // AJOUTEZ CES DEUX PROPRIÉTÉS POUR LA FLEXIBILITÉ
-    flexDirection: 'column', // Aligne les enfants verticalement
-    justifyContent: 'space-between', // Pousse le premier enfant en haut, le dernier en bas
+    overflow: 'hidden',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
   menuHeader: {
     paddingTop: 60,
     paddingBottom: 25,
     paddingHorizontal: 20,
-    marginBottom: 20,
     justifyContent: 'flex-end',
-    // Retirez les bordures/ombres que j'ai mis dans le précédent menuHeader ici
   },
-  menuItemsContainer: { // NOUVEAU STYLE
-    flex: 1, // Prend tout l'espace disponible pour pousser la déconnexion vers le bas
-    paddingHorizontal: 20, // Appliquez le padding ici pour les items
+  menuHeaderTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    marginBottom: 5,
   },
-  // ... (vos styles existants pour menuHeaderTitle, menuHeaderSubtitle, menuItem, menuIcon, menuItemText) ...
-
+  menuHeaderSubtitle: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.8)',
+  },
+  menuItemsWrapper: {
+    flex: 1,
+    paddingTop: 20,
+    paddingHorizontal: 20,
+  },
+  menuItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 15,
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    marginBottom: 8,
+    backgroundColor: 'transparent',
+    shadowColor: 'rgba(0,0,0,0.05)',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  menuItemText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#212121',
+  },
+  menuIcon: {
+    marginRight: 15,
+  },
   menuSeparator: {
-    height: 1,
-    backgroundColor: '#EEE',
-    marginVertical: 15,
-    marginHorizontal: 20, // Alignement avec le padding des items
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: 'rgba(0, 188, 212, 0.3)',
+    marginVertical: 18,
+    marginHorizontal: 0,
   },
   logoutItem: {
-    // Style pour l'item de déconnexion, il aura son propre padding horizontal
-    paddingHorizontal: 20, // Pour aligner avec les autres items
-    marginBottom: 20, // Marge en bas pour le pied du menu
-    // Pas de background color par défaut, sera géré par menuItemPressed
+    paddingHorizontal: 20,
+    paddingBottom: 20,
   },
   logoutText: {
     color: '#D32F2F',

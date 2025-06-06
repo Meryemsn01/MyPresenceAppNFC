@@ -6,14 +6,16 @@ import { mockStudents, mockTeacherModules } from '../data/mockData'; // Importez
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker'; // Importez Picker
 import styles from './styles/StudentsListScreenStyles'; // Importe les styles
+import { useMenu } from '../context/MenuContext'; // Pour ouvrir le menu
 
 const StudentsListScreen = ({ navigation }) => {
   const [allStudents, setAllStudents] = useState([]); // Garde la liste complète
   const [displayedStudents, setDisplayedStudents] = useState([]); // Liste affichée après filtres
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedModule, setSelectedModule] = useState('all'); // Module sélectionné
-  const [headerFiliere, setHeaderFiliere] = useState('Toutes les Filières'); // Texte d'en-tête dynamique
+  const [headerFiliere, setHeaderFiliere] = useState('Toutes les Filières Enseignées'); // Texte d'en-tête dynamique
   const [isLoading, setIsLoading] = useState(true);
+  const { openMenu } = useMenu(); // Pour ouvrir le menu
 
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -41,13 +43,13 @@ const StudentsListScreen = ({ navigation }) => {
       );
       // Mettre à jour l'en-tête avec la filière du module sélectionné
       const moduleInfo = mockTeacherModules.find(mod => mod.value === selectedModule);
-      setHeaderFiliere(moduleInfo ? moduleInfo.filiere : '');
+      setHeaderFiliere(moduleInfo ? moduleInfo.filiere : 'Module Inconnu'); // Gestion si module non trouvé
     } else {
       // Si "Tous les Modules" est sélectionné, afficher tous les étudiants des modules enseignés
       currentFilteredStudents = allStudents.filter(student =>
         mockTeacherModules.some(tm => tm.value === student.module)
       );
-      setHeaderFiliere('Toutes les Filières');
+      setHeaderFiliere('Toutes les Filières Enseignées'); // Texte pour le cas "Tous les Modules"
     }
 
     // 2. Filtrage par recherche textuelle
@@ -64,13 +66,7 @@ const StudentsListScreen = ({ navigation }) => {
 
   }, [searchQuery, selectedModule, allStudents]);
 
-  // Effet pour mettre à jour les modules disponibles en fonction de la filière sélectionnée
-  // (Pas directement utilisé ici car mockTeacherModules est fixe, mais c'est une bonne pratique)
-  useEffect(() => {
-    // Logique pour mettre à jour les modules disponibles si on avait des filières dynamiques
-    // setAvailableModules(mockModuleOptions[selectedFiliere] || mockModuleOptions['all']);
-    // setSelectedModule('all'); // Réinitialise le module quand la filière change
-  }, [selectedModule]);
+  // Pas besoin d'un second useEffect pour les modules disponibles si mockTeacherModules est fixe
 
 
   // Composant pour un item étudiant dans la liste
@@ -98,13 +94,16 @@ const StudentsListScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       {/* En-tête de page dynamique */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <Feather name="arrow-left" size={24} color="#FFFFFF" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>{headerFiliere}</Text> {/* Titre dynamique */}
-        <View style={{ width: 24 }} />
-      </View>
+        <View style={styles.header}>
+        {/* Bouton de menu (à gauche) */}
+            <TouchableOpacity onPress={openMenu} style={styles.menuButtonLeft}> {/* Nouveau style pour le bouton menu à gauche */}
+              <Feather name="menu" size={24} color="#FFFFFF" />
+            </TouchableOpacity>
+            {/* Titre dynamique (centré) */}
+            <Text style={styles.headerTitle}>{headerFiliere}</Text>
+            {/* Espace vide pour centrer le titre si le bouton de menu à gauche est le seul élément de bord */}
+            <View style={{ width: 24 }} /> {/* Gardez cet espace pour centrer le titre par rapport au bouton de menu */}
+        </View>
 
       {/* Sélecteur de module */}
 

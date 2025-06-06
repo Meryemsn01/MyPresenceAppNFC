@@ -3,11 +3,14 @@ import AppNavigator from './navigation/AppNavigator'; // Importe notre navigateu
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
 import Toast from 'react-native-toast-message';
+import { MenuProvider } from './context/MenuContext';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <AppNavigator />
+      <MenuProvider>
+        <AppNavigator />
+      </MenuProvider>
       <StatusBar style="auto" />
       <Toast />
     </View>
