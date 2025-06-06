@@ -141,9 +141,19 @@ const HomeScreen = ({ navigation }) => {
     );
   };
 
+// Dans screens/HomeScreen.js
+
   const handleMenuItemPress = (screenName) => {
-    setIsMenuVisible(false);
-    Alert.alert('Navigation Simulée', `Navigation vers ${screenName} (page en construction).`);
+      setIsMenuVisible(false); // Ferme le menu
+
+      // --- NOUVELLE LOGIQUE DE NAVIGATION RÉELLE ---
+      if (screenName === 'StudentsList' || screenName === 'Schedule' || screenName === 'Settings') {
+          navigation.navigate(screenName); // Navigue réellement vers l'écran si le nom correspond
+      } else {
+          // Garde l'alerte pour les cas non gérés ou futurs
+          Alert.alert('Navigation Simulée', `Navigation vers ${screenName} (page en construction).`);
+      }
+      // --- FIN NOUVELLE LOGIQUE ---
   };
 
   if (isLoading) {

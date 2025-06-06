@@ -1,3 +1,5 @@
+// screens/styles/LoginScreenStyles.js
+
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -15,10 +17,8 @@ const styles = StyleSheet.create({
     width: 200,
     height: 100,
     resizeMode: 'contain',
-    marginBottom: 0, // Ajustez la marge pour que le logo soit au-dessus de l'indicateur NFC
+    marginBottom: 20, // Ajustez la marge pour que le logo soit au-dessus de l'indicateur NFC
   },
-  // Supprimez tous les styles liés à nfcIndicatorContainer, nfcIndicatorText, nfcWaveLine
-
   // NOUVEAUX STYLES POUR L'INDICATEUR GÉOMÉTRIQUE D'IMPULSION NFC
   nfcPulseIndicator: {
     width: 150, // Taille de la zone de l'indicateur
