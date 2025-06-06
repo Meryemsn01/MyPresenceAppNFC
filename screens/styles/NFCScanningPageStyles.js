@@ -9,8 +9,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
     paddingVertical: 15,
+    paddingTop: 40, // <-- Augmentez ce paddingTop à 50 (si ce n'est pas déjà fait)
     backgroundColor: '#0D47A1',
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
@@ -19,11 +20,15 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 5,
+    position: 'relative', // Pour les positionnements absolus des boutons
   },
   headerTitle: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#FFFFFF',
+    flex: 1,
+    textAlign: 'center',
+    paddingHorizontal: 40,
   },
   terminateButton: {
     backgroundColor: '#FF5722',

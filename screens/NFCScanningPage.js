@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Switch, Activit
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import styles from './styles/NFCScanningPageStyles'; // Importer les styles
 import Toast from 'react-native-toast-message';
+import { mockScannedStudents } from '../data/mockData';
 
 const NFCScanningPage = ({ navigation, route }) => {
   const { selectedSession } = route.params || {};
@@ -122,7 +123,17 @@ const NFCScanningPage = ({ navigation, route }) => {
       'Voulez-vous vraiment terminer cette session de scan ?',
       [
         { text: 'Annuler', style: 'cancel' },
-        { text: 'Terminer', onPress: () => navigation.navigate('Home') }
+        { text: 'Terminer', onPress: () => {
+          // Simuler les étudiants scannés pour le résumé
+          // Dans une vraie app, ces données viendraient du backend ou de l'état local
+          const scannedStudentsForSummary = mockScannedStudents; // Utilise nos mock data pour l'exemple
+
+          navigation.navigate('SessionSummary', { // <-- Navigue vers la nouvelle page
+            selectedSession: selectedSession,
+            scannedStudents: scannedStudentsForSummary,
+          });
+        }
+      }
       ]
     );
   };

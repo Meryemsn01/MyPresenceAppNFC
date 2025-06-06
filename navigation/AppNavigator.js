@@ -11,6 +11,8 @@ import NFCScanningPage from '../screens/NFCScanningPage';
 import StudentsListScreen from '../screens/StudentsListScreen';
 import ScheduleScreen from '../screens/ScheduleScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import SessionSummaryView from '../screens/SessionSummaryView'; // <-- Ajoutez cet import
+
 
 import CustomSideMenu from '../components/CustomSideMenu'; // Importez le composant du menu
 import { useMenu } from '../context/MenuContext'; // Importez useMenu
@@ -26,6 +28,7 @@ const MainAppNavigator = () => {
         <Stack.Screen name="StudentsList" component={StudentsListScreen} />
         <Stack.Screen name="Schedule" component={ScheduleScreen} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
+        <Stack.Screen name="SessionSummary" component={SessionSummaryView} />
       </Stack.Navigator>
       <CustomSideMenu /> 
     </View>

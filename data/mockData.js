@@ -236,3 +236,12 @@ export const mockSchedule = [
     classType: 'TP',
   },
 ];
+// data/mockData.js
+// ... (vos mockFiliereStats, mockSessions, mockStudents, mockTeacherModules, mockSchedule existants) ...
+
+export const mockScannedStudents = [
+  { id: 'ETU001', name: 'Ahmed Benali', matricule: 'M12345', status: 'Présent' },
+  { id: 'ETU002', name: 'Fatima Zahraoui', matricule: 'M67890', status: 'Présent' },
+  { id: 'ETU003', name: 'Youssef El Amrani', matricule: 'M24680', status: 'Présent' },
+  { id: 'ETU007', name: 'Omar Bouzidi', matricule: 'M44556', status: 'Présent' },
+];
