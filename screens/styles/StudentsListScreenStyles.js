@@ -1,4 +1,4 @@
-// screens/styles/StudentsListScreenStyles.js
+// screens/styles/StudentsListScreenStyles.js - CODE CORRECT ET PROPRE
 
 import { StyleSheet } from 'react-native';
 
@@ -21,9 +21,10 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'center', // <-- Gardez ceci pour le centrage vertical
     paddingHorizontal: 15,
-    paddingVertical: 15,
+    paddingVertical: 15, // <-- Ajustez ce padding vertical pour la hauteur globale de l'en-tête
+    paddingTop: 50, // <-- GARDONS CE PADDING TOP pour décaler de la barre de statut
     backgroundColor: '#0D47A1',
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
@@ -32,6 +33,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 5,
+    // position: 'relative', // Plus nécessaire si les boutons ne sont plus absolument positionnés
   },
   headerTitle: {
     fontSize: 20,
@@ -39,10 +41,17 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     flex: 1,
     textAlign: 'center',
+    paddingHorizontal: 40, // <-- AJOUTEZ UN PADDING HORIZONTAL pour éviter que le texte ne se superpose aux boutons
   },
-  backButton: {
+   headerButtonLeft: { // Bouton de menu (burger) - à gauche
     padding: 5,
+    position: 'absolute', // <-- GARDONS LE POSITIONNEMENT ABSOLU
+    left: 15,
+    top: '50%', // <-- Centre verticalement
+    transform: [{ translateY: -12 }], // <-- Ajuste précisément au centre (pour une icône de 24px)
+    zIndex: 1, // Assure qu'il est cliquable
   },
+  // headerButtonRight: { ... } - Supprimez ce style si vous ne l'utilisez plus dans le JSX
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -68,9 +77,9 @@ const styles = StyleSheet.create({
   filterContainer: {
     marginHorizontal: 15,
     marginBottom: 15,
-    backgroundColor: '#FFFFFF', // Ajouté pour le débogage
-    borderRadius: 10,         // Ajouté pour le débogage
-    paddingVertical: 5,       // Ajouté un peu de padding
+    backgroundColor: '#FFFFFF', // Ajouté pour le débogage et visibilité du Picker
+    borderRadius: 10,
+    paddingVertical: 5, // Ajoute un peu de padding vertical autour du Picker
   },
   pickerWrapper: {
     flex: 1,

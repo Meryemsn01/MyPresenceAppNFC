@@ -189,5 +189,50 @@ export const mockModuleOptions = {
     { label: 'Apprentissage Automatique', value: 'Apprentissage Automatique' },
     { label: 'Big Data Analytics', value: 'Big Data Analytics' },
   ],
+  
 };
+// data/mockData.js
+// ... (vos mockFiliereStats, mockSessions, mockStudents, mockTeacherModules existants) ...
 
+export const mockSchedule = [
+  {
+    id: 'SCH001',
+    moduleName: 'Développement Mobile',
+    filiere: 'Génie Informatique',
+    date: '2025-06-05', // Aujourd'hui
+    timeStart: '09:00',
+    timeEnd: '11:00',
+    room: 'Salle B101',
+    classType: 'Cours',
+  },
+  {
+    id: 'SCH002',
+    moduleName: 'Algorithmique Avancée',
+    filiere: 'Génie Logiciel',
+    date: '2025-06-05', // Aujourd'hui
+    timeStart: '11:00',
+    timeEnd: '13:00',
+    room: 'Salle B102',
+    classType: 'TD',
+  },
+  {
+    id: 'SCH003',
+    moduleName: 'Sécurité des Réseaux',
+    filiere: 'Génie Réseaux',
+    date: '2025-06-06', // Demain
+    timeStart: '14:00',
+    timeEnd: '16:00',
+    room: 'Salle B103',
+    classType: 'Cours',
+  },
+  {
+    id: 'SCH004',
+    moduleName: 'Apprentissage Automatique',
+    filiere: 'Data Science',
+    date: '2025-06-07', // Après-demain
+    timeStart: '09:00',
+    timeEnd: '11:00',
+    room: 'Salle B101',
+    classType: 'TP',
+  },
+];
