@@ -12,6 +12,7 @@ const NFCScanningPage = ({ navigation, route }) => {
   const [autoApprove, setAutoApprove] = useState(false);
   const [scanMessage, setScanMessage] = useState("Appuyez pour démarrer le scan NFC"); // Message initial
   const [showInstruction, setShowInstruction] = useState(false); // Pour afficher les instructions après le clic
+  const [lastScanResult, setLastScanResult] = useState(null);
 
   useEffect(() => {
     // Si aucune session n'est sélectionnée, rediriger ou afficher un message.
@@ -173,30 +174,56 @@ const NFCScanningPage = ({ navigation, route }) => {
       )}
 
       {/* Zone de Scan NFC - La partie innovante */}
-      <View style={styles.scanAreaContainer}>
-        <TouchableOpacity
-          style={styles.scanButton}
-          onPress={simulateNFCScan}
-          disabled={isScanning}
-        >
-          {isScanning ? (
-            <ActivityIndicator size="large" color="#0D47A1" />
-          ) : (
-            <MaterialCommunityIcons name="nfc" size={100} color="#0D47A1" />
-          )}
+ {/* Zone de Scan NFC */}
+    <View style={styles.scanAreaContainer}>
+      {/* Condition d'affichage: soit on scanne, soit on affiche le résultat ou le bouton de nouveau scan */}
+      {isScanning ? (
+        // Pendant le scan (affiche l'ActivityIndicator)
+        <TouchableOpacity style={styles.scanButton} disabled={true}>
+          <ActivityIndicator size="large" color="#0D47A1" />
           <Text style={styles.scanInstructionText}>{scanMessage}</Text>
-          {showInstruction && !isScanning && (
+          {showInstruction && (
             <Text style={styles.scanSubInstruction}>Tenez la carte près de l'arrière de l'appareil.</Text>
           )}
         </TouchableOpacity>
-        {isScanning && (
-          <View style={styles.pulseAnimationContainer}>
-            {/* Ces vues simulent l'animation de pulsation */}
-            <View style={styles.pulseCircleStatic1} />
-            <View style={styles.pulseCircleStatic2} />
-          </View>
-        )}
-      </View>
+      ) : lastScanResult && !autoApprove && lastScanResult.success ? ( // <-- AJUSTEMENT CLÉ ICI : lastScanResult doit être vrai et success
+        // Après un scan réussi, si pas d'auto-approbation, afficher le résultat et le bouton Vérifier
+        <View style={styles.scanResultDisplay}>
+          <MaterialCommunityIcons name="check-circle-outline" size={80} color="#4CAF50" />
+          <Text style={styles.scanInstructionText}>{scanMessage}</Text>
+          {/* Ces lignes doivent être rendues seulement si lastScanResult et studentData existent */}
+          {lastScanResult.studentData && (
+            <>
+              <Text style={styles.scanResultSummary}>Étudiant: {lastScanResult.studentData.name}</Text>
+              <Text style={styles.scanResultSummary}>Filière: {lastScanResult.studentData.filiere}</Text>
+            </>
+          )}
+          <TouchableOpacity
+            style={styles.verifyScanButton}
+            onPress={handleVerifyScan}
+          >
+            <Text style={styles.verifyScanButtonText}>Vérifier les Informations</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        // Avant le scan, ou après un auto-approve, ou si scanResult n'est pas successful
+        <TouchableOpacity
+          style={styles.scanButton}
+          onPress={simulateNFCScan}
+        >
+          <MaterialCommunityIcons name="nfc" size={100} color="#0D47A1" />
+          <Text style={styles.scanInstructionText}>Appuyez pour démarrer un scan NFC</Text>
+          <Text style={styles.scanSubInstruction}>Ou approchez la carte</Text>
+        </TouchableOpacity>
+      )}
+
+      {isScanning && (
+        <View style={styles.pulseAnimationContainer}>
+          <View style={styles.pulseCircleStatic1} />
+          <View style={styles.pulseCircleStatic2} />
+        </View>
+      )}
+    </View>
 
       {/* Option d'Approbation Automatique */}
       <View style={styles.autoApproveContainer}>
