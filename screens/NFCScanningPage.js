@@ -225,7 +225,16 @@ const NFCScanningPage = ({ navigation, route }) => {
       )}
     </View>
 
-      {/* Option d'Approbation Automatique */}
+      {/* Bouton pour la Saisie Manuelle */}
+    <TouchableOpacity
+      style={styles.manualEntryButton}
+      onPress={() => navigation.navigate('ManualAttendance', { selectedSession: selectedSession })}
+    >
+      <MaterialCommunityIcons name="pencil-plus-outline" size={20} color="#0D47A1" />
+      <Text style={styles.manualEntryButtonText}>Saisie Manuelle</Text>
+    </TouchableOpacity>
+
+        {/* Option d'Approbation Automatique */}
       <View style={styles.autoApproveContainer}>
         <Text style={styles.autoApproveLabel}>Approbation automatique</Text>
         <Switch

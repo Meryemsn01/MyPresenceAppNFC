@@ -260,6 +260,34 @@ const styles = StyleSheet.create({
     marginVertical: 15,
   },
 
+  // screens/styles/NFCScanningPageStyles.js
+
+// ... (vos styles existants) ...
+
+manualEntryButton: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundColor: '#FFFFFF',
+  borderRadius: 15,
+  marginHorizontal: 20,
+  paddingVertical: 15,
+  marginBottom: 20, // Espace en bas
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.1,
+  shadowRadius: 4,
+  elevation: 5,
+  borderWidth: 1,
+  borderColor: '#B0BEC5', // Gris clair
+},
+manualEntryButtonText: {
+  fontSize: 16,
+  fontWeight: 'bold',
+  color: '#0D47A1',
+  marginLeft: 10,
+},
+// ... (le reste de vos styles) ...
   // --- FIN STYLES DU MENU LATÉRAL ---
 });
 

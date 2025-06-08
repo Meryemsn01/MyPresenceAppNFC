@@ -245,3 +245,14 @@ export const mockScannedStudents = [
   { id: 'ETU003', name: 'Youssef El Amrani', matricule: 'M24680', status: 'Présent' },
   { id: 'ETU007', name: 'Omar Bouzidi', matricule: 'M44556', status: 'Présent' },
 ];
+// data/mockData.js
+// ... (vos mockFiliereStats, mockSessions, mockStudents, mockTeacherModules, mockSchedule, mockScannedStudents existants) ...
+
+export const mockSessionStudentsAttendance = [
+  { id: 'ETU001', name: 'Ahmed Benali', matricule: 'M12345', filiere: 'Génie Informatique', status: 'Présent' },
+  { id: 'ETU009', name: 'Chaima El Houssaini', matricule: 'M11111', filiere: 'Génie Informatique', status: 'Absent' },
+  { id: 'ETU003', name: 'Youssef El Amrani', matricule: 'M24680', filiere: 'Génie Informatique', status: 'Présent' },
+  { id: 'ETU010', name: 'Amine Benchekroun', matricule: 'M22222', filiere: 'Génie Informatique', status: 'Absent' },
+  { id: 'ETU007', name: 'Omar Bouzidi', matricule: 'M44556', filiere: 'Génie Informatique', status: 'Présent' },
+  { id: 'ETU011', name: 'Nour El Idrissi', matricule: 'M33333', filiere: 'Génie Informatique', status: 'Absent' },
+];

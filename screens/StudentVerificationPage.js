@@ -83,13 +83,16 @@ const StudentVerificationPage = ({ navigation, route }) => {
   return (
     <SafeAreaView style={styles.container}>
       {/* En-tête de page cohérent */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={openMenu} style={styles.headerButtonLeft}>
-          <Feather name="menu" size={24} color="#FFFFFF" />
-        </TouchableOpacity>
+            <View style={styles.header}>
+        {/* Bouton de menu (à gauche) */}
+            <TouchableOpacity onPress={openMenu} style={styles.menuButtonLeft}> {/* Nouveau style pour le bouton menu à gauche */}
+              <Feather name="menu" size={24} color="#FFFFFF" />
+            </TouchableOpacity>
+            {/* Titre dynamique (centré) */}
         <Text style={styles.headerTitle}>Vérification Étudiant</Text>
-        <View style={{ width: 24 }} /> {/* Espace vide à droite */}
-      </View>
+            {/* Espace vide pour centrer le titre si le bouton de menu à gauche est le seul élément de bord */}
+            <View style={{ width: 24 }} /> {/* Gardez cet espace pour centrer le titre par rapport au bouton de menu */}
+        </View>
 
       {student ? (
         <View style={styles.studentCard}>

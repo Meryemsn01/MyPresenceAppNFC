@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, FlatList, Alert } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import { mockScannedStudents } from '../data/mockData'; // Importe les données d'étudiants scannés
 import styles from './styles/SessionSummaryViewStyles'; // Importe les styles
 import { useMenu } from '../context/MenuContext'; // Pour ouvrir le menu
@@ -35,12 +35,15 @@ const SessionSummaryView = ({ navigation, route }) => {
     <SafeAreaView style={styles.container}>
       {/* En-tête de page cohérent */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={openMenu} style={styles.headerButtonLeft}>
-          <MaterialCommunityIcons name="menu" size={24} color="#FFFFFF" />
-        </TouchableOpacity>
+        {/* Bouton de menu (à gauche) */}
+            <TouchableOpacity onPress={openMenu} style={styles.menuButtonLeft}> {/* Nouveau style pour le bouton menu à gauche */}
+              <Feather name="menu" size={24} color="#FFFFFF" />
+            </TouchableOpacity>
+            {/* Titre dynamique (centré) */}
         <Text style={styles.headerTitle}>Résumé de Séance</Text>
-        <View style={{ width: 24 }} /> {/* Espace vide à droite */}
-      </View>
+            {/* Espace vide pour centrer le titre si le bouton de menu à gauche est le seul élément de bord */}
+            <View style={{ width: 24 }} /> {/* Gardez cet espace pour centrer le titre par rapport au bouton de menu */}
+        </View>
 
       {/* Détails de la Session */}
       {selectedSession ? (

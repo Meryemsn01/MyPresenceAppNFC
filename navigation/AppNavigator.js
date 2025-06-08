@@ -13,6 +13,7 @@ import ScheduleScreen from '../screens/ScheduleScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import SessionSummaryView from '../screens/SessionSummaryView'; // <-- Ajoutez cet import
 import StudentVerificationPage from '../screens/StudentVerificationPage';
+import ManualAttendanceScreen from '../screens/ManualAttendanceScreen'; 
 
 import CustomSideMenu from '../components/CustomSideMenu'; // Importez le composant du menu
 import { useMenu } from '../context/MenuContext'; // Importez useMenu
@@ -30,6 +31,7 @@ const MainAppNavigator = () => {
         <Stack.Screen name="Settings" component={SettingsScreen} />
         <Stack.Screen name="SessionSummary" component={SessionSummaryView} />
         <Stack.Screen name="StudentVerificationPage" component={StudentVerificationPage} />
+        <Stack.Screen name="ManualAttendance" component={ManualAttendanceScreen} />
       </Stack.Navigator>
       <CustomSideMenu /> 
     </View>
